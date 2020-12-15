@@ -3,62 +3,32 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
-
+import 'package:flutter_app/components/book_home_card.dart';
+import 'package:flutter_app/components/book_home_list.dart';
+import 'package:flutter_app/components/myAppBar.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  final wordPair = WordPair.random();
+// home: myAppBar(),
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'WordList',
-      home: RandomWords()
-    );
-  }
-}
-
-class RandomWords extends StatefulWidget {
-  @override
-  _RandomWordsState createState() => _RandomWordsState();
-}
-
-class _RandomWordsState extends State<RandomWords> {
-
-  final _suggestions = <WordPair>[];
-  final _biggerFont = TextStyle(fontSize: 18.0);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+        home: Scaffold(
       appBar: AppBar(
-        title: Text('WordList'),
+        title: Text('图书管理器'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(Icons.camera_alt),
+            onPressed: () {},
+          )
+        ],
       ),
-      body: _buildSuggestions(),
-    );
-  }
-
-  Widget _buildRow(WordPair pair) {
-    return ListTile(
-      title: Text(
-        pair.asPascalCase,
-        style: _biggerFont,
-      ),
-    );
-  }
-
-  Widget _buildSuggestions() {
-    return ListView.builder(
-        padding: EdgeInsets.all(16.0),
-        itemBuilder: /*1*/ (context, i) {
-          if (i.isOdd) return Divider(); /*2*/
-
-          final index = i ~/ 2; /*3*/
-          if (index >= _suggestions.length) {
-            _suggestions.addAll(generateWordPairs().take(10)); /*4*/
-          }
-          return _buildRow(_suggestions[index]);
-        });
+      body: bookHomeList(),
+    ));
   }
 }
