@@ -3,9 +3,9 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_app/components/book_home_card.dart';
-import 'package:flutter_app/components/book_home_list.dart';
-import 'package:flutter_app/components/myAppBar.dart';
+import 'package:flutter_app/components/bottom_bar.dart';
+import 'package:flutter_app/components/top_home_bar.dart';
+import 'package:flutter_app/pages/book_home.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,21 +14,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
-      appBar: AppBar(
-        title: Text('图书管理器'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(Icons.camera_alt),
-            onPressed: () {},
-          )
-        ],
-      ),
-      body: bookHomeList(),
-    ));
+            appBar: topHomeBar(),
+            body: bookHomePage(),
+            bottomNavigationBar: bottomBar()));
   }
 }
