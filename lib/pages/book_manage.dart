@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/components/book_manage_list.dart';
 
-class bookManagePage extends StatefulWidget {
+class BookManagePage extends StatefulWidget {
   @override
-  _bookManagePageState createState() => _bookManagePageState();
+  _BookManagePageState createState() => _BookManagePageState();
 }
 
-class _bookManagePageState extends State<bookManagePage> {
+class _BookManagePageState extends State<BookManagePage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('我是图书管理'),
+    return Scaffold(
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.dehaze), onPressed: () {}),
+        ],
+      ),
+      body: BookManageList(),
     );
   }
 }

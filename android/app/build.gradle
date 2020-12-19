@@ -38,6 +38,7 @@ android {
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true //当引用的dex超过65565个时，遇到64k问题，reffer:
     }
 
     buildTypes {

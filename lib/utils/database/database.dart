@@ -10,12 +10,6 @@ class SqlManager {
   static init() async {
     var databasesPath = await getDatabasesPath();
     print('datapath:' + databasesPath);
-    print('datapath:' + databasesPath);
-    print('datapath:' + databasesPath);
-    print('datapath:' + databasesPath);
-    print('datapath:' + databasesPath);
-    print('datapath:' + databasesPath);
-    print('datapath:' + databasesPath);
     String path = join(databasesPath, _NAME);
     _database = await openDatabase(path,
         version: _VERSION, onCreate: (Database db, int version) async {});
@@ -23,11 +17,10 @@ class SqlManager {
 
   ///判断表是否存在
   static isTableExits(String tableName) async {
-    // await getCurrentDatabase();
-    // var res = await _database.rawQuery(
-    //     "select * from 'Sqlite_master where type = 'table' and name = '$tableName'");
-    // return res != null && res.length > 0;
-    return true;
+    await getCurrentDatabase();
+    var res = await _database.rawQuery(
+        "select * from Sqlite_master where type = 'table' and name = '$tableName'");
+    return res != null && res.length > 0;
   }
 
   ///获取当前数据库对象

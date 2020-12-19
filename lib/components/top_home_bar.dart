@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:flutter_app/models/UserModel.dart';
+import 'package:flutter_app/utils/database/crud.dart';
 import 'package:permission_handler/permission_handler.dart';
-
+import 'package:qrscan/qrscan.dart' as scanner;
 
 //请注意构造appBar组件时需要知道组件高度，并重写getPreferredSize
-class topHomeBar extends StatefulWidget with PreferredSizeWidget{
+class topHomeBar extends StatefulWidget with PreferredSizeWidget {
   @override
   _topHomeBarState createState() => _topHomeBarState();
 
@@ -17,11 +18,22 @@ class _topHomeBarState extends State<topHomeBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text('图书管理器'),
+      title: Text('藏书管理器'),
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.search),
-          onPressed: () {},
+          onPressed: () {
+            print('你点击了搜索框');
+            // Fluttertoast.showToast(msg: "This is Center Short Toast",
+            //     toastLength: Toast.LENGTH_SHORT,
+            //     gravity: ToastGravity.CENTER,
+            //     timeInSecForIosWeb: 1,
+            //     backgroundColor: Colors.red,
+            //     textColor: Colors.white,
+            //     fontSize: 16.0
+            // );
+            changeLanguage();
+          },
         ),
         IconButton(
           icon: Icon(Icons.camera_alt),
@@ -31,6 +43,16 @@ class _topHomeBarState extends State<topHomeBar> {
         )
       ],
     );
+  }
+
+  static insert() async {
+    PersonDbProvider provider = new PersonDbProvider();
+    UserModel userModel = UserModel();
+    userModel.id = 1143824942687547394;
+    userModel.mobile = "15801071158";
+    userModel.headImage = "http://www.img";
+    var i = provider.insert(userModel);
+    print(i);
   }
 
   Future<bool> getCamera() async {
@@ -53,5 +75,30 @@ class _topHomeBarState extends State<topHomeBar> {
       String barcode = await scanner.scan();
       print(barcode);
     }
+  }
+
+  Future<void> changeLanguage() async {
+    int i = await showDialog<int>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("提示"),
+            content: Text("您确定要删除当前文件吗?"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("取消"),
+                onPressed: () {
+                  print('用户取消了操作');
+                }, //关闭对话框
+              ),
+              FlatButton(
+                child: Text("删除"),
+                onPressed: () {
+                  insert();
+                },
+              ),
+            ],
+          );
+        });
   }
 }

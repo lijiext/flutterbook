@@ -4,37 +4,45 @@ class bookHomeCard extends StatelessWidget {
   // @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150,
       child: Card(
-          // color: Colors.green,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
           child: Row(
             children: <Widget>[
               Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: EdgeInsets.all(5.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(0),
-                        image: DecorationImage(
-                            fit: BoxFit.fitHeight,
-                            image: AssetImage("assets/img/firstLineOfCode.jpg"))),
-                  ),
-                )
-              ),
+                  flex: 2,
+                  child: Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: Container(
+                      height: 150,
+                      decoration: BoxDecoration(
+                          border: new Border.all(
+                            //新手建议给每一个组件写一个border
+                            color: const Color(0xff6d9eeb),
+                          ),
+                          shape: BoxShape.rectangle,
+                          // borderRadius: BorderRadius.circular(0),
+                          image: DecorationImage(
+                              // fit: BoxFit.fitHeight,
+                              fit: BoxFit.cover,
+                              image: AssetImage(
+                                  "assets/img/firstLineOfCode.jpg"))),
+                    ),
+                  )),
               Expanded(
                   flex: 3,
-                  child: _bookDescription(
-                    bookName: '第一行代码（第三版）',
-                    bookAuthor: '郭霖',
-                    bookId: 1001,
-                    bookISBN: '978-7-115-43978-9',
-                    bookLocation: 'A303',
-                    bookPress: '人民邮电出版社',
-                    bookPrice: '79.0元',
-                    bookPublishDate: '2019年11月',
-                    bookStatus: '已借出',
+                  child: Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: _bookDescription(
+                      bookName: '第一行代码（第三版）',
+                      bookAuthor: '郭霖',
+                      bookId: 1001,
+                      bookISBN: '978-7-115-43978-9',
+                      bookLocation: 'A303',
+                      bookPress: '人民邮电出版社',
+                      bookPrice: '79.0元',
+                      bookPublishDate: '2019年11月',
+                      bookStatus: '已借出',
+                    ),
                   ))
             ],
           )),

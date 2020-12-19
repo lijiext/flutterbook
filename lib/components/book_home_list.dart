@@ -13,13 +13,6 @@ class _bookHomeListState extends State<bookHomeList> {
       child: ListView(
         children: <Widget>[
           bookHomeCard(),
-          bookHomeCard(),
-          bookHomeCard(),
-          bookHomeCard(),
-          bookHomeCard(),
-          bookHomeCard(),
-          bookHomeCard(),
-          bookHomeCard()
         ],
       ),
     );

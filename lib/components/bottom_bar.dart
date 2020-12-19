@@ -26,7 +26,7 @@ class _bottomBarState extends State<bottomBar> {
   ];
 
   //需要的page
-  final pages = [bookHomePage(), bookManagePage(), bookSearch()];
+  final pages = [BookHomePage(), BookManagePage(), BookSearch()];
   var currentIndex = 0;
 
   @override

@@ -6,7 +6,6 @@ import 'BaseDbProvider.dart';
 class PersonDbProvider extends BaseDbProvider {
   ///表名
   final String name = 'PresonInfo';
-
   final String columnId = "id";
   final String columnMobile = "mobile";
   final String columnHeadImage = "headImage";
