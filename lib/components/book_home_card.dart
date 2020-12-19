@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
 class bookHomeCard extends StatelessWidget {
-  // @override
+  // BookModel bookModel;
+
+  // bookHomeCard(this.bookModel);
+
+  Map bookInfo;
+  bookHomeCard(this.bookInfo);
+  @override
   Widget build(BuildContext context) {
+    // print(this.bookModel);
     return Container(
       child: Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
@@ -33,6 +40,7 @@ class bookHomeCard extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.all(5.0),
                     child: _bookDescription(
+                      // bookName: bookModel.bookName,
                       bookName: '第一行代码（第三版）',
                       bookAuthor: '郭霖',
                       bookId: 1001,
@@ -63,6 +71,7 @@ class _bookDescription extends StatelessWidget {
       this.bookLocation,
       this.bookPublishDate})
       : super(key: key);
+
   final int bookId;
   final String bookName;
   final String bookAuthor;

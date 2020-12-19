@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/models/data.dart';
 import 'package:flutter_app/utils/camera/scanner.dart';
-import 'package:flutter_app/utils/network/get_book_info.dart';
 
 class BookAdd extends StatefulWidget {
   @override
@@ -31,18 +30,18 @@ class _BookAddState extends State<BookAdd> {
               onPressed: () {
                 scan().then((res) => {
                       print('图书条码：' + res),
-                      getBookInfo(res).then((value) => {
-                            print('获取图书信息：' + value.bookName),
-                            setState(() {
-                              result = value.bookISBN;
-                              _bookNameController.text = value.bookName;
-                              _bookAuthorController.text = value.bookAuthor;
-                              _bookPressController.text = value.bookPress;
-                              _bookPublishDateController.text =
-                                  value.bookPublishDate;
-                              _bookPriceController.text = value.bookPrice;
-                            })
-                          })
+                      // getBookInfo(res).then((value) => {
+                      //       print('获取图书信息：' + value.bookName),
+                      //       setState(() {
+                      //         result = value.bookISBN;
+                      //         _bookNameController.text = value.bookName;
+                      //         _bookAuthorController.text = value.bookAuthor;
+                      //         _bookPressController.text = value.bookPress;
+                      //         _bookPublishDateController.text =
+                      //             value.bookPublishDate;
+                      //         _bookPriceController.text = value.bookPrice;
+                      //       })
+                      //     })
                     });
               },
             )
