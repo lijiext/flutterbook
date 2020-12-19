@@ -15,28 +15,39 @@ class _bookHomeListState extends State<bookHomeList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: ListView(
-      children: _getBooks(),
+        child: FutureBuilder(
+      future: _getBooks(),
+      builder:
+          (BuildContext buildContext, AsyncSnapshot<List<Widget>> listwidget) {
+        if (listwidget.hasData) {
+          return ListView(
+            children: listwidget.data,
+          );
+        } else {
+          print('list 为空');
+          return Text('数据为空');
+        }
+      },
     ));
   }
 
-  List<Widget> _getBooks() {
+  Future<List<Widget>> _getBooks() async {
     List<Widget> list = new List();
     print('_getBooks方法被调用了');
-    print('_queryRows方法正在数据库中查找图书');
-    var result = _queryRows();
-    _queryRows().then((value) => {
-          for (int i = 0; i <= value.length; i++)
-            {list.add(bookHomeCard(value[i]))}
-        });
-    // list.add(bookHomeCard(getBookInfo(1)));
+    dbHelper
+        .queryAllRows()
+        .then((value) => {
+              for (int i = 0; i < value.length; i++)
+                {
+                  print('获取数据$i成功：' + value.toString()),
+                  list.add(bookHomeCard(value[i]))
+                }
+            })
+        .whenComplete(() => {print('构造list已完成：' + list.toString())});
+    await Future.delayed(Duration(seconds: 3), () {
+      print("延时三秒后请求数据");
+    });
     print('即将返回list');
     return list.toList();
-  }
-
-  Future<List> _queryRows() async {
-    final allRows = await dbHelper.queryAllRows();
-    print('图书列表:');
-    return allRows;
   }
 }
