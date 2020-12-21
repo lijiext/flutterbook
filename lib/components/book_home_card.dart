@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class bookHomeCard extends StatelessWidget {
   Map bookInfo;
+
   bookHomeCard(this.bookInfo);
+
   @override
   Widget build(BuildContext context) {
-    print('Card收到数据：' + this.bookInfo.toString());
-
     return Container(
       child: Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
