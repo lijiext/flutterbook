@@ -7,6 +7,7 @@ class BookHomePage extends StatefulWidget {
   _BookHomePageState createState() => _BookHomePageState();
 }
 
+//图书首页，异步加载图书
 class _BookHomePageState extends State<BookHomePage> {
   @override
   Widget build(BuildContext context) {

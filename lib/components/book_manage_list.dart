@@ -6,78 +6,14 @@ class BookManageList extends StatefulWidget {
   _BookManageListState createState() => _BookManageListState();
 }
 
+//图书管理选项列表
 class _BookManageListState extends State<BookManageList> {
   @override
   Widget build(BuildContext context) {
     return Wrap(
       children: [
         Card(
-          child: Column(
-            children: [
-              ButtonTheme(
-                minWidth: double.infinity,
-                height: 50,
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) => new BookAdd()));
-                  },
-                  child: Text(
-                    '添加图书',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Card(
-          child: Column(
-            children: [
-              ButtonTheme(
-                minWidth: double.infinity,
-                height: 50,
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) => new BookAdd()));
-                  },
-                  child: Text(
-                    '添加图书',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Card(
-          child: Column(
-            children: [
-              ButtonTheme(
-                minWidth: double.infinity,
-                height: 50,
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) => new BookAdd()));
-                  },
-                  child: Text(
-                    '添加图书',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Card(
+          //添加图书按钮
           child: Column(
             children: [
               ButtonTheme(

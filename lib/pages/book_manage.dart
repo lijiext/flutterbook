@@ -6,6 +6,7 @@ class BookManagePage extends StatefulWidget {
   _BookManagePageState createState() => _BookManagePageState();
 }
 
+//图书管理页面
 class _BookManagePageState extends State<BookManagePage> {
   @override
   Widget build(BuildContext context) {

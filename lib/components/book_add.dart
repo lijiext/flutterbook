@@ -1,7 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app/models/data.dart';
+import 'package:flutter_app/models/BookModel.dart';
 import 'package:flutter_app/utils/camera/scanner.dart';
+import 'package:flutter_app/utils/crud.dart';
+import 'package:flutter_app/utils/network/get_book_info.dart';
+import 'package:flutter_app/utils/toast/mytoast.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
 
 class BookAdd extends StatefulWidget {
   @override
@@ -10,18 +16,26 @@ class BookAdd extends StatefulWidget {
 
 class _BookAddState extends State<BookAdd> {
   String result = '没有结果';
-  var bookModel = BookModel();
+  BookModel bookModel;
+
+  // final dbHelper = DatabaseHelper.instance;
   TextEditingController _bookNameController = new TextEditingController();
   TextEditingController _bookAuthorController = new TextEditingController();
   TextEditingController _bookPressController = new TextEditingController();
-  TextEditingController _bookPublishDateController =
-      new TextEditingController();
   TextEditingController _bookPriceController = new TextEditingController();
   TextEditingController _bookPositionController = new TextEditingController();
+  String selectedDate = '';
+
+  @override
+  initState() {
+    super.initState();
+    selectedDate = DateFormat('yyyy-MM').format(DateTime.now());
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
           title: Text('添加图书'),
           actions: [
@@ -30,18 +44,19 @@ class _BookAddState extends State<BookAdd> {
               onPressed: () {
                 scan().then((res) => {
                       print('图书条码：' + res),
-                      // getBookInfo(res).then((value) => {
-                      //       print('获取图书信息：' + value.bookName),
-                      //       setState(() {
-                      //         result = value.bookISBN;
-                      //         _bookNameController.text = value.bookName;
-                      //         _bookAuthorController.text = value.bookAuthor;
-                      //         _bookPressController.text = value.bookPress;
-                      //         _bookPublishDateController.text =
-                      //             value.bookPublishDate;
-                      //         _bookPriceController.text = value.bookPrice;
-                      //       })
-                      //     })
+                      //扫码之后得到图书ISBN，填入controller中，用户点击添加之后才往数据库中添加数据
+                      getBookInfo(res).then((value) => {
+                            bookModel = value,
+                            print(bookModel),
+                            _bookNameController.text = bookModel.bookName,
+                            _bookAuthorController.text = bookModel.bookAuthor,
+                            _bookPressController.text = bookModel.bookPress,
+                            _bookPriceController.text = bookModel.bookPrice,
+                            selectedDate = bookModel.bookPublishDate,
+                            _bookPositionController.text =
+                                bookModel.bookLocation
+                          }),
+                      // bookModel = getBookInfo(res),
                     });
               },
             )
@@ -108,39 +123,6 @@ class _BookAddState extends State<BookAdd> {
                 child: Column(
                   children: [
                     TextField(
-                        controller: _bookPublishDateController,
-                        inputFormatters: [LengthLimitingTextInputFormatter(32)],
-                        decoration: InputDecoration(
-                          labelText: '出版日期：',
-                          hintText: '请输入图书出版日期',
-                          border: OutlineInputBorder(),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
-                        ),
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (_) => new AlertDialog(
-                                    title: Text('选择日期'),
-                                    content: new Text("Hey! I'm Coflutter!"),
-                                    actions: <Widget>[
-                                      RaisedButton(
-                                        child: Text('Close me!'),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      )
-                                    ],
-                                  ));
-                        }),
-                  ],
-                ),
-              ),
-              Card(
-                child: Column(
-                  children: [
-                    TextField(
                       controller: _bookPriceController,
                       inputFormatters: [LengthLimitingTextInputFormatter(32)],
                       decoration: InputDecoration(
@@ -174,6 +156,34 @@ class _BookAddState extends State<BookAdd> {
                 ),
               ),
               Card(
+                //日期选择按钮
+                child: Column(
+                  children: [
+                    FlatButton(
+                        onPressed: () {
+                          DatePicker.showDatePicker(context,
+                              showTitleActions: true,
+                              minTime: DateTime(1900, 1, 1),
+                              maxTime: DateTime(2099, 12, 12),
+                              onChanged: (date) {
+                            print('change $date');
+                          }, onConfirm: (date) {
+                            print('confirm $date');
+                            setState(() {
+                              print(DateFormat('yyyy-MM').format(date));
+                              selectedDate = DateFormat('yyyy-MM').format(date);
+                            });
+                          },
+                              currentTime: DateTime.now(),
+                              locale: LocaleType.zh);
+                        },
+                        child: Text(
+                          '请选择出版日期：$selectedDate ',
+                        ))
+                  ],
+                ),
+              ),
+              Card(
                 child: Column(
                   children: [
                     SizedBox(
@@ -186,6 +196,14 @@ class _BookAddState extends State<BookAdd> {
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () {
+                          print(_bookNameController.text);
+                          if (_bookNameController.text.length == 0) {
+                            Toast.show("请填写图书信息");
+                          } else {
+                            insertBook(bookModel);
+                          }
+
+                          // _insert(bookModel);
                           // Navigator.of(context).pop();
                         },
                       ),
@@ -193,15 +211,6 @@ class _BookAddState extends State<BookAdd> {
                   ],
                 ),
               ),
-              Text(
-                "扫描结果：" + result,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis, // 显示不完，就在后面显示点点
-                style: TextStyle(
-                  fontSize: 20, // 文字大小文字颜色
-                ),
-              )
             ],
           ),
         ));

@@ -12,27 +12,34 @@ class bookHomeList extends StatefulWidget {
 class _bookHomeListState extends State<bookHomeList> {
   final dbHelper = DatabaseHelper.instance;
 
+  // bool isLoading = true;
+  List<Widget> list = new List();
+
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: FutureBuilder(
-      future: _getBooks(),
-      builder:
-          (BuildContext buildContext, AsyncSnapshot<List<Widget>> listwidget) {
-        if (listwidget.hasData) {
-          return ListView(
-            children: listwidget.data,
-          );
-        } else {
-          print('list 为空');
-          return Text('数据为空');
-        }
-      },
-    ));
+      // child: RefreshIndicator(
+      //   onRefresh: _onRefresh,
+      child: FutureBuilder(
+        future: _getBooks(),
+        builder: (BuildContext buildContext,
+            AsyncSnapshot<List<Widget>> listwidget) {
+          if (listwidget.hasData) {
+            return ListView(
+              children: listwidget.data,
+            );
+          } else {
+            print('list 为空');
+            return Text('数据为空');
+          }
+        },
+      ),
+      // ),
+    );
   }
 
   Future<List<Widget>> _getBooks() async {
-    List<Widget> list = new List();
+    // if (this.isLoading == true) {
     print('_getBooks方法被调用了');
     dbHelper
         .queryAllRows()
@@ -44,10 +51,21 @@ class _bookHomeListState extends State<bookHomeList> {
                 }
             })
         .whenComplete(() => {print('构造list已完成：' + list.toString())});
-    await Future.delayed(Duration(seconds: 3), () {
-      print("延时三秒后请求数据");
-    });
+    // await Future.delayed(Duration(seconds: 3), () {
+    //   print("延时三秒后请求数据");
+    // });
     print('即将返回list');
+    // setState(() {
+    //   isLoading = false;
+    // });
     return list.toList();
   }
 }
+
+// Future<Null> _onRefresh() {
+//   list.clear();
+//   setState(() {
+//     isLoading = true;
+//   });
+//   _getBooks();
+// }
