@@ -12,6 +12,12 @@ class _bookHomeListState extends State<bookHomeList> {
   List bookList = new List();
 
   @override
+  void initState() {
+    super.initState();
+    _handlerRefresh();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       child: new RefreshIndicator(
