@@ -23,6 +23,7 @@ dependencies:
   path_provider: ^1.6.24
   flutter_datetime_picker: ^1.4.0
   dio: ^3.0.10
+  flappy_search_bar: ^1.7.2
 
 dev_dependencies:
   flutter_test:
