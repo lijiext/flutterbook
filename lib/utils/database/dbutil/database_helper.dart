@@ -88,11 +88,10 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> queryByName(String name) async {
     //根据图书名称查找相似的图书
     Database db = await instance.database;
-    String sql = "SELECT * FROM $table WHERE $columnName LIKE '$name%'";
+    String sql = "SELECT * FROM $table WHERE $columnName LIKE '%$name%'";
     print(sql);
     var result = await db.rawQuery(sql);
-    print(result.toString());
-    return db.rawQuery(sql);
+    return result;
   }
 
   // All of the methods (insert, query, update, delete) can also be done using

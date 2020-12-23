@@ -23,10 +23,6 @@ class _BookSearchState extends State<BookSearch> {
             placeHolder: Text('请输入图书名称'),
             onSearch: search,
             onItemFound: (Map map, int index) {
-              // return ListTile(
-              //   title: Text(book.title),
-              //   subtitle: Text(book.author),
-              // );
               return bookHomeCard(map);
             },
             onError: (error) {
@@ -34,13 +30,18 @@ class _BookSearchState extends State<BookSearch> {
                 child: Text("Error occurred : $error"),
               );
             },
-            // crossAxisCount: 2,
-            // indexedScaledTileBuilder: (int index) => ScaledTile.count(
-            //   index % 3 == 0 ? 2 : 1,
-            //   1,
+            emptyWidget: Center(
+              child: Text('没有找到你搜索的图书哦'),
+            ),
+            // loader: Center(
+            //   child: Text("正在搜索中，请耐心等待"),
             // ),
             minimumChars: 2,
-            cancellationWidget: Text('查询'),
+            cancellationWidget: FlatButton(
+              color: Colors.blue,
+              textColor: Colors.black,
+              child: Text('取消'),
+            ),
             searchBarStyle: SearchBarStyle(
               // backgroundColor: Colors.lightBlue,
               padding: EdgeInsets.all(1),
@@ -89,18 +90,6 @@ Future<List<Map>> search(String search) async {
       });
   await Future.delayed(Duration(seconds: 2));
   print('search拿到的' + bookList.toString());
+  // if(bookList.length == 0 )
   return bookList;
-  // return List.generate(search.length, (int index) {
-  //   return Book("图片地址: $search $index", "标题: $search $index",
-  //       "作者：$search $index", "位置：$search $index");
-  // });
 }
-
-// class Book {
-//   final String cover_url;
-//   final String title;
-//   final String author;
-//   final String location;
-//
-//   Book(this.cover_url, this.title, this.author, this.location);
-// }

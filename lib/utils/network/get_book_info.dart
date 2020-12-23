@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_app/models/BookModel.dart';
 
-Dio dio = new Dio();
+BaseOptions options = new BaseOptions(receiveTimeout: 5000, sendTimeout: 3000);
+Dio dio = new Dio(options);
+
 Future<BookModel> getBookInfo(isbn) async {
   String url = "https://book.feelyou.top/isbn/" + isbn;
   print(url);
