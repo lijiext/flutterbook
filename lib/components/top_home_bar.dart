@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/UserModel.dart';
 import 'package:flutter_app/utils/database/crud.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
@@ -20,21 +19,21 @@ class _topHomeBarState extends State<topHomeBar> {
   Widget build(BuildContext context) {
     return AppBar(
       title: Text('藏书管理器'),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.camera_alt),
-          onPressed: () {
-            scan().then((value) => {
-                  Fluttertoast.showToast(
-                      msg: value,
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      backgroundColor: Colors.red,
-                      textColor: Colors.yellow)
-                });
-          },
-        )
-      ],
+      // actions: <Widget>[
+      //   IconButton(
+      //     icon: Icon(Icons.camera_alt),
+      //     onPressed: () {
+      //       scan().then((value) => {
+      //             Fluttertoast.showToast(
+      //                 msg: value,
+      //                 toastLength: Toast.LENGTH_SHORT,
+      //                 gravity: ToastGravity.BOTTOM,
+      //                 backgroundColor: Colors.red,
+      //                 textColor: Colors.yellow)
+      //           });
+      //     },
+      //   )
+      // ],
     );
   }
 

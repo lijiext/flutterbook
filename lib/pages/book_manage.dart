@@ -13,7 +13,16 @@ class _BookManagePageState extends State<BookManagePage> {
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.dehaze), onPressed: () {}),
+          IconButton(
+              icon: Icon(Icons.dehaze),
+              onPressed: () {
+                showAboutDialog(
+                    context: context,
+                    applicationName: '藏书管理器',
+                    applicationVersion: '0.1.1',
+                    applicationLegalese: '© 2020 李杰',
+                    children: <Widget>[Text('一个简单的藏书管理器，点击添加图书扫码，从豆瓣获取图书信息。')]);
+              }),
         ],
       ),
       body: BookManageList(),

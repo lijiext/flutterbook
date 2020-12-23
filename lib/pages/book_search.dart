@@ -36,7 +36,7 @@ class _BookSearchState extends State<BookSearch> {
             // loader: Center(
             //   child: Text("正在搜索中，请耐心等待"),
             // ),
-            minimumChars: 2,
+            minimumChars: 1,
             cancellationWidget: FlatButton(
               color: Colors.blue,
               textColor: Colors.black,

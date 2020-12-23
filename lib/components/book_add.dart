@@ -6,14 +6,17 @@ import 'package:flutter_app/utils/camera/scanner.dart';
 import 'package:flutter_app/utils/crud.dart';
 import 'package:flutter_app/utils/network/get_book_info.dart';
 import 'package:flutter_app/utils/toast/mytoast.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:intl/intl.dart';
 
 class BookAdd extends StatefulWidget {
   @override
   _BookAddState createState() => _BookAddState();
 }
 
+/*
+插入图书需要：
+图书名，作者，出版社，ISBN
+价格，位置，数量，
+ */
 class _BookAddState extends State<BookAdd> {
   String result = '没有结果';
   BookModel bookModel;
@@ -24,12 +27,13 @@ class _BookAddState extends State<BookAdd> {
   TextEditingController _bookPressController = new TextEditingController();
   TextEditingController _bookPriceController = new TextEditingController();
   TextEditingController _bookPositionController = new TextEditingController();
-  String selectedDate = '';
+  TextEditingController _bookISBNController = new TextEditingController();
+  TextEditingController _bookPublishDateController =
+      new TextEditingController();
 
   @override
   initState() {
     super.initState();
-    selectedDate = DateFormat('yyyy-MM').format(DateTime.now());
   }
 
   @override
@@ -52,9 +56,11 @@ class _BookAddState extends State<BookAdd> {
                             _bookAuthorController.text = bookModel.bookAuthor,
                             _bookPressController.text = bookModel.bookPress,
                             _bookPriceController.text = bookModel.bookPrice,
-                            selectedDate = bookModel.bookPublishDate,
                             _bookPositionController.text =
-                                bookModel.bookLocation
+                                bookModel.bookLocation,
+                            _bookPublishDateController.text =
+                                bookModel.bookPublishDate,
+                            _bookISBNController.text = bookModel.bookISBN,
                           }),
                       // bookModel = getBookInfo(res),
                     });
@@ -156,30 +162,38 @@ class _BookAddState extends State<BookAdd> {
                 ),
               ),
               Card(
-                //日期选择按钮
                 child: Column(
                   children: [
-                    FlatButton(
-                        onPressed: () {
-                          DatePicker.showDatePicker(context,
-                              showTitleActions: true,
-                              minTime: DateTime(1900, 1, 1),
-                              maxTime: DateTime(2099, 12, 12),
-                              onChanged: (date) {
-                            print('change $date');
-                          }, onConfirm: (date) {
-                            print('confirm $date');
-                            setState(() {
-                              print(DateFormat('yyyy-MM').format(date));
-                              selectedDate = DateFormat('yyyy-MM').format(date);
-                            });
-                          },
-                              currentTime: DateTime.now(),
-                              locale: LocaleType.zh);
-                        },
-                        child: Text(
-                          '请选择出版日期：$selectedDate ',
-                        ))
+                    TextField(
+                      controller: _bookPublishDateController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(32)],
+                      decoration: InputDecoration(
+                        labelText: '出版日期：',
+                        hintText: '请输入图书出版日期',
+                        border: OutlineInputBorder(),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Card(
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: _bookISBNController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(32)],
+                      decoration: InputDecoration(
+                        labelText: 'ISBN：',
+                        hintText: '请输入图书ISBN',
+                        border: OutlineInputBorder(),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -202,7 +216,6 @@ class _BookAddState extends State<BookAdd> {
                           } else {
                             insertBook(bookModel);
                           }
-
                           // _insert(bookModel);
                           // Navigator.of(context).pop();
                         },

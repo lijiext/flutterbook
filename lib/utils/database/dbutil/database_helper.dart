@@ -117,6 +117,11 @@ class DatabaseHelper {
     return await db.delete(table, where: '$columnId = ?', whereArgs: [id]);
   }
 
+  Future<int> deleteBook(int bookId) async {
+    Database db = await instance.database;
+    return await db.delete(table, where: '$columnId = ?', whereArgs: [bookId]);
+  }
+
   //删除表中所有数据并重新建立表
   Future<void> dropTable() async {
     Database db = await instance.database;
@@ -131,13 +136,13 @@ class DatabaseHelper {
             $columnTranslater TEXT, 
             $columnPress TEXT NOT NULL,
             $columnBookImage TEXT NOT NULL,
-            $columnPublishDate TEXT NOT NULL,
+            $columnPublishDate TEXT,
             $columnPackagingStyle TEXT,
             $columnPrice TEXT NOT NULL,
             $columnPage INTEGER,
             $columnISBN TEXT NOT NULL,
             $columnLocation TEXT NOT NUll,
-            $columnCount INTEGER NOT NULL,
+            $columnCount INTEGER,
             columnCreateTime  datetime default (datetime('now', 'localtime'))            
           )
           ''');
